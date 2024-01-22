@@ -2,14 +2,16 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet,  View,  } from 'react-native';
 import ProductScreen from './src/screen/productScreen';
 import ProductDetailsScreen from './src/screen/productDetailsScreen';
-import ShoppingCartScreen from './src/screen/ShoppingCart';
+import ShoppingCart from './src/screen/ShoppingCart';
+import Navigation from './src/navigation';
 export default function App() {
   
   return (
-    <View >
+    <View style={styles.container}>
       {/*  <ProductScreen /> */}
       {/* <ProductDetailsScreen /> */}
-      <ShoppingCartScreen />
+      {/* <ShoppingCart /> */}
+      <Navigation />
       <StatusBar style="auto" />
     </View>
   );
@@ -19,8 +21,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+   
   },
   image: {
     width: "100%",

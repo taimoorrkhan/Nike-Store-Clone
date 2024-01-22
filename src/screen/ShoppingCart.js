@@ -58,9 +58,9 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   button: {
-    position: 'absolute',
+    position: 'absolurete',
     backgroundColor: 'black',
-    bottom: -120, 
+    bottom: 0, 
     width: '90%',
     alignSelf: 'center',
     alignItems: 'center',

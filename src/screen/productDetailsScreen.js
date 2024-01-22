@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, FlatList,useWindowDimensions, ScrollView, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Image, FlatList,useWindowDimensions, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 import products from '../data/products'
@@ -28,9 +28,9 @@ export default function ProductDetailsScreen() {
       </ScrollView>
       
       {/* Cart Button */}
-      <Pressable style={styles.button} onPress={addToCart}>
+      <TouchableOpacity style={styles.button} onPress={addToCart}>
         <Text style={styles.buttonText}>Add to Cart</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   )
 }

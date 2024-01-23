@@ -10,8 +10,6 @@ export const productSlice = createSlice({
   initialState: initalState,
   reducers: {
     setSelectedProduct: (state, action) => {
-      console.log(action);
-      console.log(state);
       state.selectedProduct = state.products.find((product) => {
         return product.id === action.payload;
       })

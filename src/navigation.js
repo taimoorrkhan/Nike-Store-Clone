@@ -7,8 +7,13 @@ import ProductDetailsScreen from './screen/productDetailsScreen';
 import ShoppingCart from './screen/ShoppingCart';
 import { TouchableOpacity, Text, View } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
+
+import { selectNumOFItems } from './store/cartSlice';
+
 export default function Navigation() {
   const Stack = createNativeStackNavigator();
+  const numOfItems = useSelector(selectNumOFItems);
 
   return (
     <NavigationContainer>
@@ -42,7 +47,11 @@ export default function Navigation() {
                 borderRadius: 100,
 
               }}>
-                <Text style={{ marginLeft: 7, fontWeight: 'bold', color: "red", fontSize:16 }}>1</Text>
+                <Text style={{ marginLeft: 7, fontWeight: 'bold', color: "red", fontSize: 16 }}>
+                  {
+                    numOfItems > 0 && numOfItems ? numOfItems: ""
+                  }
+                </Text>
               </View>
 
             </TouchableOpacity>

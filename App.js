@@ -4,16 +4,19 @@ import ProductScreen from './src/screen/productScreen';
 import ProductDetailsScreen from './src/screen/productDetailsScreen';
 import ShoppingCart from './src/screen/ShoppingCart';
 import Navigation from './src/navigation';
+import { Provider } from 'react-redux';
+import { store } from './src/store';
 export default function App() {
   
   return (
+    <Provider store={store}>
+
     <View style={styles.container}>
-      {/*  <ProductScreen /> */}
-      {/* <ProductDetailsScreen /> */}
-      {/* <ShoppingCart /> */}
+
       <Navigation />
       <StatusBar style="auto" />
     </View>
+    </Provider>
   );
 }
 

@@ -51,7 +51,8 @@ export default function Navigation() {
         <Stack.Screen name="Product Details"
           options={{
             presentation: 'fullScreenModal',
-            headerTitle: ""
+            headerTitle: "",
+            animation: 'slide_from_bottom',
           }
           }
           component={ProductDetailsScreen} />

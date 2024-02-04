@@ -3,7 +3,8 @@ import React from 'react'
 import CartListItem from '../components/CartListItem'
 import { useSelector,useDispatch } from 'react-redux'
 import { selectSubtotal, selectTotal, cartSlice, } from '../store/cartSlice'
-import { useCreateOrderMutation } from '../store/apiSlice'
+import { useCreateOrderMutation,useCreatePaymentIntentMutation } from '../store/apiSlice'
+import {useStripe} from '@stripe/stripe-react-native';
 export default function ShoppingCart() {
   const [createOrder,{data,error,isLoading}] = useCreateOrderMutation();
   const Subtotal = useSelector(selectSubtotal);
@@ -13,6 +14,8 @@ export default function ShoppingCart() {
   const freeDeliveryFrom = useSelector((state) => state.cart.freeDeliveryFrom);
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
+  const [createPaymentIntent] = useCreatePaymentIntentMutation();
+  const { initPaymentSheet,presentPaymentSheet} = useStripe();
   const createOrderBtn = async () => { 
     if(cartItems.length === 0){
       return alert('Your cart is empty');
@@ -39,6 +42,39 @@ export default function ShoppingCart() {
       );
       dispatch(cartSlice.actions.clearCart());
     }
+  }
+  const onCheckout = async () => {
+    // 1. Create a payment intent
+    const result = await createPaymentIntent({ amount: Math.floor(total * 100) });
+    if(result.error){
+      alert('Error creating payment intent');
+      return;
+    }
+
+
+    // 2. Initialize the Payment sheet
+    const initResponse = await initPaymentSheet({
+      merchantDisplayName: 'Nike Inc.',
+      marchantCountryCode: 'US',
+      paymentIntentClientSecret: result.data.paymentIntent,
+
+    });
+    if (initResponse.error) {
+      alert('Error initializing payment sheet');
+      return;
+    }
+
+
+    // 3. Present the Payment Sheet from Stripe
+    const paymentResponse = await presentPaymentSheet();
+    if (paymentResponse.error) {
+      alert('Error presenting payment sheet');
+      return;
+    }
+
+
+    // 4. If payment ok -> create the order
+    createOrderBtn();
   }
   return (
     <>
@@ -68,7 +104,7 @@ export default function ShoppingCart() {
         </View>
       )}
       />
-      <TouchableOpacity onPress={createOrderBtn} style={styles.button}>
+      <TouchableOpacity onPress={onCheckout} style={styles.button}>
         <Text style={styles.buttonText}>Check Out</Text>
       </TouchableOpacity>
     </>

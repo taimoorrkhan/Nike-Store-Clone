@@ -2,16 +2,23 @@ import { StyleSheet, Text, View, Image, FlatList,useWindowDimensions, ScrollView
 import React from 'react'
 import { useSelector,useDispatch } from 'react-redux'
 import { cartSlice } from '../store/cartSlice'
-export default function ProductDetailsScreen() {
-
-
+import { useGetProductQuery } from '../store/apiSlice'
+import { ActivityIndicator } from 'react-native'
+export default function ProductDetailsScreen({ route}) {
+  const id = route.params.id;
+  const { data, error, isLoading } = useGetProductQuery(id);
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.products.selectedProduct)
   const { width } = useWindowDimensions();
-  
     const addToCart = () => {
       dispatch(cartSlice.actions.addCartItem({product}))
   }
+  if (isLoading) {
+    return <ActivityIndicator size="large" color="#0000ff" />
+  }
+  if (error) {
+    return <Text>Error: {error}</Text>
+  }
+  const product = data.data;
   return (
     <View>
       <ScrollView>
